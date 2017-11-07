@@ -1,0 +1,8 @@
+branches:
+  only:
+  - master
+language: ruby
+services:
+- docker
+script:
+- make release DOCKER_USER=$DOCKER_USER DOCKER_PASS=$DOCKER_PASS DEPLOY_TOKEN=$DEPLOY_TOKEN TAG=`echo $TRAVIS_COMMIT | cut -c -7` || exit 1
