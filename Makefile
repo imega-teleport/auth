@@ -7,7 +7,7 @@ TAG = latest
 
 release: build
 	@docker login --username $(DOCKER_USER) --password $(DOCKER_PASS)
-	@docker push $(IMG):$(TAG)
+	docker push $(IMG):$(TAG)
 	@curl -s -X POST -H "TOKEN: $(DEPLOY_TOKEN)" https://d.imega.ru -d '{"namespace":"$(PGROUP)", "project_name":"$(NAME)", "tag":"$(TAG)"}'
 
 build: unit
