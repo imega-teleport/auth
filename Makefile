@@ -1,5 +1,5 @@
 NAME = auth
-PGROUP= imega-teleport
+PGROUP= imegateleport
 IMG = $(PGROUP)/$(NAME)
 CWD = /go/src/github.com/$(PGROUP)
 LINTER_FLAGS = --fast
@@ -7,8 +7,8 @@ TAG = latest
 
 release: build
 	@docker login --username $(DOCKER_USER) --password $(DOCKER_PASS)
-	docker push $(IMG):$(TAG)
-	@curl -s -X POST -H "TOKEN: $(DEPLOY_TOKEN)" https://d.imega.ru -d '{"namespace":"$(PGROUP)", "project_name":"$(NAME)", "tag":"$(TAG)"}'
+	@docker push $(IMG):$(TAG)
+	@curl -s -X POST -H "TOKEN: $(DEPLOY_TOKEN)" https://d.imega.ru -d '{"namespace":"imega-teleport", "project_name":"$(NAME)", "tag":"$(TAG)"}'
 
 build: unit
 	@docker build --build-arg CWD=$(CWD) -t $(IMG):$(TAG) .
