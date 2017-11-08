@@ -8,4 +8,9 @@ before_install:
 - sudo apt-get update
 - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 script:
-- make release DOCKER_USER=$DOCKER_USER DOCKER_PASS=$DOCKER_PASS DEPLOY_TOKEN=$DEPLOY_TOKEN TAG=`echo $TRAVIS_COMMIT | cut -c -7` || exit 1
+- make release DOCKER_USER=$DOCKER_USER DOCKER_PASS=$DOCKER_PASS DEPLOY_TOKEN=$DEPLOY_TOKEN
+  TAG=`echo $TRAVIS_COMMIT | cut -c -7` || exit 1
+notifications:
+  slack:
+    rooms:
+      secure: oO39axA168BBp/2NbEM+h3bL8BaTHbnLheodJHjrINSE1WaqjpNRTF01fnXs4Y87K5Dub0A58y+z7RlRglKPnN/IqlesD1Mc7wRzrd3LVSH3Xxv4mp0DxeMgd8gevMx4br7O+CgOQOdiPdzI8wqYn0kAN8mgjKhmMWVH0yYzlNAhlv8dMYQRTX033JdHMHtFC8pcseCN56PH4Yxk1ktg4hwGB29C1koZW+FS9DiE+IEdcgpT5FyiJL7lunGzemCo3OpzViWow7aDlETE05OTL3HMRscF0oGbP5diH4/xHoXZyt2Qj+744apFkpkDBCBUhl8c9LsK1ZFbT6UWX3kXeWyz6ko2B1l6wgaReu34/fEEHJOf/CsmT2orWLrwSm0E7XTbmifSJ2Yc2+QtYp6H7zx7YMPwXeFyos1dGX4e0f0eENNcWldVRntyX7tXmB5irES5Ww8f0x1dXn6cGuzenw0/XPvMrHKhnM4/yPiD9EY/DwvPYKZ10BsSU9gOtaTuqsmgkvGmLMH0Kk4rwmsql3NdVShupR/3z2bEw+l9B5UipQKwrNfi7l5R1dmBZ25NT0bQIx3XKpxRvA+ag4/Wd8wOBC+g5/QhY+gUoc9YGrkGsQ126FBCzfPwjCoo23iKfuvEgj54Bhnj1gM99O9s6uFwfni26e5weXUjJB1B9LA=
