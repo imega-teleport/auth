@@ -1,0 +1,61 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/service.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/auth/basic": {
+      "post": {
+        "operationId": "Auth",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/authAuthResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/authAuthRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthBasic"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "authAuthRequest": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "pass": {
+          "type": "string"
+        }
+      }
+    },
+    "authAuthResponse": {
+      "type": "object"
+    }
+  }
+}

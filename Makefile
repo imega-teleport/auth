@@ -11,17 +11,19 @@ release: build acceptance
 	@docker push $(IMG):$(TAG)
 	@curl -s -X POST -H "TOKEN: $(DEPLOY_TOKEN)" https://d.imega.ru -d '{"namespace":"$(PGROUP)", "project_name":"$(NAME)", "tag":"$(TAG)"}'
 
+test: clean build acceptance
+
 build: unit
 	@docker build --build-arg CWD=$(CWD) -t $(IMG):$(TAG) .
 
 unit: pretest
-	docker run --rm -v $(CURDIR):$(CWD) -w $(CWD) golang:1.8-alpine \
+	@docker run --rm -v $(CURDIR):$(CWD) -w $(CWD) golang:1.8-alpine \
 		sh -c "go list ./... | grep -v 'vendor\|acceptance' | xargs go test"
 
 pretest:
 	@docker run --rm -v $(CURDIR):$(CWD) -w $(CWD) dnephin/gometalinter \
-		$(LINTER_FLAGS) --vendor --deadline=600s --disable=gotype --disable=gocyclo \
-		--exclude=/usr ./...
+		$(LINTER_FLAGS) --vendor --deadline=600s --disable=gotype --disable=gocyclo --disable=gas \
+		--exclude=/usr --exclude='api' ./...
 
 acceptance:
 	@TAG=$(TAG) IMG=$(IMG) docker-compose up -d
@@ -32,6 +34,6 @@ acceptance:
 		golang:1.8-alpine sh -c "go test -v -tags=acceptance github.com/imega-teleport/auth/acceptance"
 
 clean:
-	@TAG=$(TAG) docker-compose -f docker-compose.test.yml rm -sfv
+	@TAG=$(TAG) docker-compose rm -sfv
 
 .PHONY: acceptance
