@@ -3,7 +3,10 @@ package server
 import (
 	"github.com/imega-teleport/auth/api"
 	"github.com/imega-teleport/auth/model"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // Option is any options for package
@@ -20,7 +23,17 @@ type srv struct {
 	repo model.Repository
 }
 
-func (s *srv) Auth(context.Context, *auth.AuthRequest) (*auth.AuthResponse, error) {
+func (s *srv) GetUser(context.Context, *auth.GetUserRequest) (*auth.GetUserResponse, error) {
+	return &auth.GetUserResponse{}, nil
+}
+
+func (s *srv) Auth(ctx context.Context, req *auth.AuthRequest) (*auth.AuthResponse, error) {
+	_, err := s.repo.GetUser(ctx, req.GetLogin(), req.GetPass())
+	if err != nil {
+		logrus.Errorf("%s", err)
+		return &auth.AuthResponse{}, status.Error(codes.NotFound, "User not found")
+	}
+
 	return &auth.AuthResponse{}, nil
 }
 

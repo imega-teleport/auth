@@ -40,6 +40,30 @@
           "AuthBasic"
         ]
       }
+    },
+    "/api/v1/auth/user/{login}": {
+      "get": {
+        "operationId": "GetUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/authGetUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "login",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "AuthBasic"
+        ]
+      }
     }
   },
   "definitions": {
@@ -56,6 +80,49 @@
     },
     "authAuthResponse": {
       "type": "object"
+    },
+    "authGetUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/authUser"
+        }
+      }
+    },
+    "authPayload": {
+      "type": "object",
+      "properties": {
+        "custom_script": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "authUser": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "pass": {
+          "type": "string"
+        },
+        "payload": {
+          "$ref": "#/definitions/authPayload"
+        },
+        "create_at": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
     }
   }
 }

@@ -11,6 +11,11 @@ service AuthBasic {
             body: "*"
         };
     }
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/auth/user/{login}"
+        };
+    }
 }
 
 message AuthRequest {
@@ -19,3 +24,25 @@ message AuthRequest {
 }
 
 message AuthResponse {}
+
+message GetUserRequest {
+    string login = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message User {
+    string login = 1;
+    string pass = 2;
+    Payload payload = 3;
+    string create_at = 4;
+    bool active = 5;
+}
+
+message Payload {
+    string custom_script = 1;
+    string url = 2;
+    string email = 3;
+}

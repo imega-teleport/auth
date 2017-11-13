@@ -5,14 +5,31 @@ import (
 	"net/http"
 	"testing"
 
+	"database/sql"
+
+	"time"
+
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/google/uuid"
 	"github.com/imega-teleport/auth/api"
+	"github.com/imega/dbunit"
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_HandleAuthHeader_Returns200(t *testing.T) {
+func Test_Auth_Returns200(t *testing.T) {
 	id := uuid.New().String()
+	setup := dbunit.WithSetup(func(tx *sql.Tx) {
+		tx.Exec("TRUNCATE users")
+	})
+	fixtures := dbunit.WithFixtures([]func(tx *sql.Tx){
+		func(tx *sql.Tx) {
+			cdt := time.Now().Format("2006-01-02 15:04:05")
+			edt := time.Now().AddDate(0, 0, 1).Format("2006-01-02 15:04:05")
+			tx.Exec("INSERT users (login, pass, created_at, expired_at, active) VALUES (?, ?, ?, ?, 1)", id, id, cdt, edt)
+		},
+	})
+	_, teardown := dbunit.NewUnitDB(t, dbunit.WithDSN(getDSN()), setup, fixtures)
+	defer teardown()
 
 	request := auth.AuthRequest{
 		Login: id,
@@ -23,8 +40,7 @@ func Test_HandleAuthHeader_Returns200(t *testing.T) {
 	err := marshaler.Marshal(&requestBuf, &request)
 	assert.NoError(t, err)
 
-	req, err := http.NewRequest(http.MethodPost, "http://app:8080/api/v1/auth/basic", &requestBuf)
-	req.SetBasicAuth(id, id)
+	req, err := http.NewRequest(http.MethodPost, getAPIEntryPoint("basic"), &requestBuf)
 	req.Header.Add("Content-Type", "application/json")
 	assert.NoError(t, err)
 

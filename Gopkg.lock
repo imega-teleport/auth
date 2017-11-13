@@ -8,6 +8,12 @@
   version = "v1.1.0"
 
 [[projects]]
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  revision = "a0583e0143b1624142adab07e0e97fe106d99561"
+  version = "v1.3"
+
+[[projects]]
   branch = "master"
   name = "github.com/golang/protobuf"
   packages = ["jsonpb","proto","protoc-gen-go/descriptor","ptypes","ptypes/any","ptypes/duration","ptypes/struct","ptypes/timestamp"]
@@ -30,6 +36,12 @@
   packages = ["runtime","runtime/internal","utilities"]
   revision = "8cc3a55af3bcf171a1c23a90c4df9cf591706104"
   version = "v1.3"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/imega/dbunit"
+  packages = ["."]
+  revision = "551b6d3ca87f5e1954e3420e18dd1f237111c57a"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -88,6 +100,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a3bed431ffd95fa3cfa22a78d3727021455508fd0e7d552545457acbf7384176"
+  inputs-digest = "5f000be8362e346f0e01cb117fae4fa0713910338e1f2d23121035e6a43cb498"
   solver-name = "gps-cdcl"
   solver-version = 1

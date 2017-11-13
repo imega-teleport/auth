@@ -3,3 +3,22 @@ version: "3.3"
 services:
   app:
     image: ${IMG}:${TAG}
+    environment:
+      - TELEPORTDB_HOST=testdb
+      - TELEPORTDB_PORT=3306
+      - TELEPORTDB_USER=root
+      - TELEPORTDB_PASS=qwerty
+      - TELEPORTDB_NAME=teleport
+
+  testdb:
+    image: mysql:5.7.19
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwerty
+      - MYSQL_DATABASE=teleport
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - ./sql/cnf:/etc/mysql/conf.d
+      - ./mysql.log:/var/log/mysql/mysql.log
+    ports:
+      - 3306:3306
+

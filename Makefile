@@ -26,14 +26,21 @@ pretest:
 		--exclude=/usr --exclude='api' ./...
 
 acceptance:
+	@touch $(CURDIR)/mysql.log
 	@TAG=$(TAG) IMG=$(IMG) docker-compose up -d
 	@docker run --rm \
 		-v $(CURDIR):$(CWD) \
 		-w $(CWD) \
+		-e TELEPORTDB_HOST=testdb \
+		-e TELEPORTDB_PORT=3306 \
+		-e TELEPORTDB_USER=root \
+		-e TELEPORTDB_PASS=qwerty \
+		-e TELEPORTDB_NAME=teleport \
 		--network auth_default \
 		golang:1.8-alpine sh -c "go test -v -tags=acceptance github.com/imega-teleport/auth/acceptance"
 
 clean:
-	@TAG=$(TAG) docker-compose rm -sfv
+	@-rm $(CURDIR)/mysql.log
+	@TAG=$(TAG) IMG=$(IMG) docker-compose rm -sfv
 
 .PHONY: acceptance
