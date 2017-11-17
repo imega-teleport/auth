@@ -19,6 +19,3 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
       - ./sql/cnf:/etc/mysql/conf.d
       - ./mysql.log:/var/log/mysql/mysql.log
-    ports:
-      - 3306:3306
-
