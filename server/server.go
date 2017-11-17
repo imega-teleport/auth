@@ -28,10 +28,10 @@ func (s *srv) GetUser(context.Context, *auth.GetUserRequest) (*auth.GetUserRespo
 }
 
 func (s *srv) Auth(ctx context.Context, req *auth.AuthRequest) (*auth.AuthResponse, error) {
-	_, err := s.repo.GetUser(ctx, req.GetLogin(), req.GetPass())
+	err := s.repo.AuthUser(ctx, req.GetLogin(), req.GetPass())
 	if err != nil {
 		logrus.Errorf("%s", err)
-		return &auth.AuthResponse{}, status.Error(codes.NotFound, "User not found")
+		return &auth.AuthResponse{}, status.Error(codes.PermissionDenied, "Access denied")
 	}
 
 	return &auth.AuthResponse{}, nil
