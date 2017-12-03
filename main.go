@@ -42,7 +42,6 @@ func main() {
 			grpc_recovery.StreamServerInterceptor(rOpts...),
 		),
 	)
-	logrus.Info(getDSN())
 	db, err := sql.Open("mysql", getDSN())
 	if err != nil {
 		logrus.Fatalf("Failed connect to mysql, %s", err)

@@ -16,6 +16,11 @@ service AuthBasic {
             get: "/api/v1/auth/user/{login}"
         };
     }
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/auth/user/create"
+        };
+    }
 }
 
 message AuthRequest {
@@ -45,4 +50,9 @@ message Payload {
     string custom_script = 1;
     string url = 2;
     string email = 3;
+}
+
+message CreateUserRequest {}
+message CreateUserResponse {
+    User user = 1;
 }

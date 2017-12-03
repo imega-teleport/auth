@@ -42,5 +42,6 @@ acceptance:
 clean:
 	@-rm $(CURDIR)/mysql.log
 	@TAG=$(TAG) IMG=$(IMG) docker-compose rm -sfv
+	@docker images --quiet --filter=dangling=true | xargs docker rmi
 
 .PHONY: acceptance

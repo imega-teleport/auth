@@ -40,6 +40,36 @@ func (r *repo) AuthUser(ctx context.Context, login, pass string) error {
 	return nil
 }
 
+func (r *repo) CreateUser(ctx context.Context, user *auth.User) error {
+	tx, err := r.db.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("failed start transaction on create a data of user %s", err)
+	}
+	defer tx.ErrorHandle(&err, "create a data of user")
+	return tx.createUser(ctx, user)
+}
+
+func (t *Tx) createUser(ctx context.Context, user *auth.User) error {
+	timeCreate, err := time.Parse("2006-01-02 15:04:05", user.GetCreateAt())
+	if err != nil {
+		return fmt.Errorf("failed convert create date from string %s", err)
+	}
+
+	_, err = t.ExecContext(
+		ctx,
+		"INSERT INTO users (login, pass, created_at, expired_at, active) VALUES (?, ?, ?, ?, ?)",
+		user.GetLogin(),
+		user.GetPass(),
+		timeCreate,
+		timeCreate,
+		user.GetActive(),
+	)
+	if err != nil {
+		return fmt.Errorf("failed exec a query on create a data of user %s", err)
+	}
+	return nil
+}
+
 // NewRepository returns new instance.
 func NewRepository(opts ...Option) model.Repository {
 	r := &repo{}

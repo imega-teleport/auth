@@ -43,13 +43,13 @@ type Tx struct {
 func (tx Tx) ErrorHandle(err *error, strLog string) {
 	if *err != nil {
 		if errRol := tx.Rollback(); errRol != nil {
-			*err = fmt.Errorf("Failed rollback transaction after exec a query on %s %s", strLog, errRol)
+			*err = fmt.Errorf("failed rollback transaction after exec a query on %s %s", strLog, errRol)
 		}
 		return
 	}
 
 	*err = tx.Commit()
 	if *err != nil {
-		*err = fmt.Errorf("Failed commit transaction on %s %s", strLog, *err)
+		*err = fmt.Errorf("failed commit transaction on %s %s", strLog, *err)
 	}
 }
