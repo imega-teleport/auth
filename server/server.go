@@ -23,6 +23,10 @@ type srv struct {
 	repo model.Repository
 }
 
+func (s *srv) CreateUser(context.Context, *auth.CreateUserRequest) (*auth.CreateUserResponse, error) {
+	return &auth.CreateUserResponse{}, nil
+}
+
 func (s *srv) GetUser(context.Context, *auth.GetUserRequest) (*auth.GetUserResponse, error) {
 	return &auth.GetUserResponse{}, nil
 }

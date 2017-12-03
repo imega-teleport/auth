@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Masterminds/squirrel"
 	"github.com/imega-teleport/auth/api"
 	"github.com/imega-teleport/auth/model"
 	"golang.org/x/net/context"
@@ -55,15 +56,13 @@ func (t *Tx) createUser(ctx context.Context, user *auth.User) error {
 		return fmt.Errorf("failed convert create date from string %s", err)
 	}
 
-	_, err = t.ExecContext(
-		ctx,
-		"INSERT INTO users (login, pass, created_at, expired_at, active) VALUES (?, ?, ?, ?, ?)",
-		user.GetLogin(),
-		user.GetPass(),
-		timeCreate,
-		timeCreate,
-		user.GetActive(),
-	)
+	b := squirrel.Insert("users").Columns("login", "pass", "created_at", "expired_at", "active")
+	q, args, err := b.Values(user.GetLogin(), user.GetPass(), timeCreate, timeCreate, user.GetActive()).ToSql()
+	if err != nil {
+		return fmt.Errorf("failed builded query %s", err)
+	}
+
+	_, err = t.ExecContext(ctx, q, args...)
 	if err != nil {
 		return fmt.Errorf("failed exec a query on create a data of user %s", err)
 	}

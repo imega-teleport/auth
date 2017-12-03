@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/Masterminds/squirrel"
+  packages = ["."]
+  revision = "a6b93000bd219143c56c16e6cb1c4b91da3f224b"
+  version = "v1.0"
+
+[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -42,6 +48,18 @@
   name = "github.com/imega/dbunit"
   packages = ["."]
   revision = "551b6d3ca87f5e1954e3420e18dd1f237111c57a"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lann/builder"
+  packages = ["."]
+  revision = "f22ce00fd9394014049dad11c244859432bd6820"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/lann/ps"
+  packages = ["."]
+  revision = "62de8c46ede02a7675c4c79c84883eb164cb71e3"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -100,6 +118,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "5f000be8362e346f0e01cb117fae4fa0713910338e1f2d23121035e6a43cb498"
+  inputs-digest = "e14f24e304264f2414d31e61697eb173262cdcf097bfb59dfdbf1d097b1fb3f0"
   solver-name = "gps-cdcl"
   solver-version = 1
