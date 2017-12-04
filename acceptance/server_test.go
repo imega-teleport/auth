@@ -118,3 +118,15 @@ func Test_Auth(t *testing.T) {
 		assert.Equal(t, http.StatusForbidden, res.StatusCode)
 	})
 }
+
+func Test_CreateUser(t *testing.T) {
+	req, err := http.NewRequest(http.MethodGet, getAPIEntryPoint("user/create"), nil)
+	req.Header.Add("Content-Type", "application/json")
+	assert.NoError(t, err)
+
+	res, err := http.DefaultClient.Do(req)
+	assert.NoError(t, err)
+	defer res.Body.Close()
+
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+}

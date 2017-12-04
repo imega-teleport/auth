@@ -1,6 +1,7 @@
 package server
 
 import (
+	"github.com/google/uuid"
 	"github.com/imega-teleport/auth/api"
 	"github.com/imega-teleport/auth/model"
 	"github.com/sirupsen/logrus"
@@ -23,7 +24,16 @@ type srv struct {
 	repo model.Repository
 }
 
-func (s *srv) CreateUser(context.Context, *auth.CreateUserRequest) (*auth.CreateUserResponse, error) {
+func (s *srv) CreateUser(ctx context.Context, req *auth.CreateUserRequest) (*auth.CreateUserResponse, error) {
+	user := &auth.User{
+		Login:  uuid.New().String(),
+		Pass:   uuid.New().String(),
+		Active: true,
+	}
+	err := s.repo.CreateUser(ctx, user)
+	if err != nil {
+		return &auth.CreateUserResponse{}, err
+	}
 	return &auth.CreateUserResponse{}, nil
 }
 

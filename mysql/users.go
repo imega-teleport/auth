@@ -50,7 +50,7 @@ func (r *repo) CreateUser(ctx context.Context, user *auth.User) error {
 	return tx.createUser(ctx, user)
 }
 
-func (t *Tx) createUser(ctx context.Context, user *auth.User) error {
+func (tx *Tx) createUser(ctx context.Context, user *auth.User) error {
 	timeCreate, err := time.Parse("2006-01-02 15:04:05", user.GetCreateAt())
 	if err != nil {
 		return fmt.Errorf("failed convert create date from string %s", err)
@@ -62,7 +62,7 @@ func (t *Tx) createUser(ctx context.Context, user *auth.User) error {
 		return fmt.Errorf("failed builded query %s", err)
 	}
 
-	_, err = t.ExecContext(ctx, q, args...)
+	_, err = tx.ExecContext(ctx, q, args...)
 	if err != nil {
 		return fmt.Errorf("failed exec a query on create a data of user %s", err)
 	}
