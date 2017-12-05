@@ -42,8 +42,14 @@ func (s *srv) CreateUser(ctx context.Context, req *auth.CreateUserRequest) (*aut
 	}, nil
 }
 
-func (s *srv) GetUser(context.Context, *auth.GetUserRequest) (*auth.GetUserResponse, error) {
-	return &auth.GetUserResponse{}, nil
+func (s *srv) GetUser(ctx context.Context, req *auth.GetUserRequest) (*auth.GetUserResponse, error) {
+	user, err := s.repo.GetUser(ctx, req.GetLogin())
+	if err != nil {
+		return &auth.GetUserResponse{}, status.Error(codes.NotFound, "User not exists"+err.Error())
+	}
+	return &auth.GetUserResponse{
+		User: user,
+	}, nil
 }
 
 func (s *srv) Auth(ctx context.Context, req *auth.AuthRequest) (*auth.AuthResponse, error) {

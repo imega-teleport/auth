@@ -30,7 +30,7 @@ func TestRepo_GetUser(t *testing.T) {
 	defer teardown()
 
 	repo := mysql.NewRepository(mysql.WithDB(unit.DB()))
-	actual, err := repo.GetUser(context.Background(), id, id)
+	actual, err := repo.GetUser(context.Background(), id)
 	assert.NoError(t, err)
 
 	assert.Equal(t, id, actual.GetLogin())

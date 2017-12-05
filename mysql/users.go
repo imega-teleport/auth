@@ -12,9 +12,9 @@ import (
 	"golang.org/x/net/context"
 )
 
-func (r *repo) GetUser(ctx context.Context, login, pass string) (*auth.User, error) {
+func (r *repo) GetUser(ctx context.Context, login string) (*auth.User, error) {
 	var u auth.User
-	row := r.db.QueryRowContext(ctx, "SELECT login, pass, created_at, active FROM users WHERE login = ? and pass = ?", login, pass)
+	row := r.db.QueryRowContext(ctx, "SELECT login, pass, created_at, active FROM users WHERE login = ?", login)
 	err := row.Scan(&u.Login, &u.Pass, &u.CreateAt, &u.Active)
 	switch {
 	case err == sql.ErrNoRows:
