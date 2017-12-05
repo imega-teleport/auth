@@ -7,6 +7,6 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -v -o rel/app
 FROM alpine:3.6
 ARG CWD
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 COPY --from=builder $CWD/rel/app ./
 CMD ["./app"]

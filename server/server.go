@@ -32,7 +32,7 @@ func (s *srv) CreateUser(ctx context.Context, req *auth.CreateUserRequest) (*aut
 	}
 	err := s.repo.CreateUser(ctx, user)
 	if err != nil {
-		return &auth.CreateUserResponse{}, err
+		return &auth.CreateUserResponse{}, status.Error(codes.Internal, "Failed create user"+err.Error())
 	}
 	return &auth.CreateUserResponse{
 		User: user,
