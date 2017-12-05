@@ -1,6 +1,8 @@
 package server
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/imega-teleport/auth/api"
 	"github.com/imega-teleport/auth/model"
@@ -26,9 +28,10 @@ type srv struct {
 
 func (s *srv) CreateUser(ctx context.Context, req *auth.CreateUserRequest) (*auth.CreateUserResponse, error) {
 	user := &auth.User{
-		Login:  uuid.New().String(),
-		Pass:   uuid.New().String(),
-		Active: true,
+		Login:    uuid.New().String(),
+		Pass:     uuid.New().String(),
+		CreateAt: time.Now().Format("2006-01-02 15:04:05"),
+		Active:   true,
 	}
 	err := s.repo.CreateUser(ctx, user)
 	if err != nil {

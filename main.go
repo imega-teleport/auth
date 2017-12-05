@@ -44,6 +44,10 @@ func main() {
 	)
 	db, err := sql.Open("mysql", getDSN())
 	if err != nil {
+		logrus.Fatalf("Failed select driver, %s", err)
+	}
+	err = db.Ping()
+	if err != nil {
 		logrus.Fatalf("Failed connect to mysql, %s", err)
 	}
 	defer func() {
