@@ -34,7 +34,9 @@ func (s *srv) CreateUser(ctx context.Context, req *auth.CreateUserRequest) (*aut
 	if err != nil {
 		return &auth.CreateUserResponse{}, err
 	}
-	return &auth.CreateUserResponse{}, nil
+	return &auth.CreateUserResponse{
+		User: user,
+	}, nil
 }
 
 func (s *srv) GetUser(context.Context, *auth.GetUserRequest) (*auth.GetUserResponse, error) {
